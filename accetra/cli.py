@@ -1,14 +1,12 @@
-"""
- * author: AK
- * created on 15-02-2025-15h-23m
- * github: https://github.com/TRC-Loop
- * email: ak@stellar-code.com
- * copyright 2025
-"""
 import argparse
 import os
 from accetra.json_loader import JsonLanguageLoader
 from accetra.xml_loader import XmlLanguageLoader
+from rich.console import Console
+from rich.traceback import install
+
+install()
+console = Console()
 
 
 def validate_file(file_path):
@@ -18,11 +16,11 @@ def validate_file(file_path):
         elif file_path.endswith(".xml"):
             loader = XmlLanguageLoader(file_path)
         else:
-            print(f"Unsupported file type: {file_path}")
+            console.print(f"[bold red]Unsupported file type:[/bold red] {file_path}")
             return
-        print(f"Validated successfully: {file_path}")
+        console.print(f"[bold green]Validated successfully:[/bold green] {file_path}")
     except Exception as e:
-        print(f"Validation failed for {file_path}: {e}")
+        console.print(f"[bold red]Validation failed for {file_path}:[/bold red] {e}")
 
 
 def create_template(output_dir, file_type):
@@ -59,7 +57,7 @@ def create_template(output_dir, file_type):
 """
         with open(os.path.join(output_dir, "language_template.xml"), "w") as f:
             f.write(template_xml)
-    print(f"Template created in {output_dir}")
+    console.print(f"[bold cyan]Template created in {output_dir}[/bold cyan]")
 
 
 def main():
@@ -75,12 +73,13 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == "validate":
+    if not args.command:
+        parser.print_help()
+        console.print("\n[bold yellow]Run with a subcommand (validate or template) for usage details.[/bold yellow]")
+    elif args.command == "validate":
         validate_file(args.file)
     elif args.command == "template":
         create_template(args.output_dir, args.type)
-    else:
-        parser.print_help()
 
 
 if __name__ == "__main__":
