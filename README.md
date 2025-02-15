@@ -12,9 +12,9 @@ Accetra is a lightweight and efficient **language loader** that supports loading
 - **Metadata Extraction**: Retrieve metadata like language code, authors, and version.
 - **Extensibility**: Easily add support for more formats or customization.
 - **Clear Structure**: Organize translations into sections (e.g., windows, errors, etc.).
+- **CLI**: Create and Validate language files.
 
 ---
-
 ## 🧑‍💻 Installation
 
 ### 1. **Install via PyPI** (Recommended)
@@ -37,6 +37,13 @@ pip install -e .
 ---
 
 ## 🎯 Usage
+
+### CLI
+Validate File:
+`accetra validate <path>`
+
+Create template:
+`accetra template <path (.)> <json/xml>`
 
 Accetra supports loading languages from both **XML** and **JSON** formats. Below are examples of how to use both formats.
 
