@@ -38,7 +38,8 @@ pip install -e .
 
 ## 🎯 Usage
 
-### CLI
+### **CLI**
+
 Validate File:
 `accetra validate <path>`
 

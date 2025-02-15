@@ -6,10 +6,10 @@ from rich.console import Console
 from rich.traceback import install
 
 install()
-console = Console()
+console: Console = Console()
 
 
-def validate_file(file_path):
+def validate_file(file_path)-> None:
     try:
         if file_path.endswith(".json"):
             loader = JsonLanguageLoader(file_path)
@@ -23,7 +23,7 @@ def validate_file(file_path):
         console.print(f"[bold red]Validation failed for {file_path}:[/bold red] {e}")
 
 
-def create_template(output_dir, file_type):
+def create_template(output_dir: str, file_type: str):
     template = {
         "meta": {
             "code": "en",
@@ -57,6 +57,8 @@ def create_template(output_dir, file_type):
 """
         with open(os.path.join(output_dir, "language_template.xml"), "w") as f:
             f.write(template_xml)
+    else:
+        console.print(f"Filetype: {file_type} is invalid. Choose either 'xml' or 'json'")
     console.print(f"[bold cyan]Template created in {output_dir}[/bold cyan]")
 
 
