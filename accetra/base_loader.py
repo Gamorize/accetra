@@ -1,5 +1,4 @@
 import os
-from shutil import ExecError
 
 class BaseLanguageLoader:
     def __init__(self, primary_lang_file: str, fallback_lang_file: str = None) -> None:
