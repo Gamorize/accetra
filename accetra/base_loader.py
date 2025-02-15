@@ -1,12 +1,13 @@
 import os
+from shutil import ExecError
 
 class BaseLanguageLoader:
-    def __init__(self, primary_lang_file, fallback_lang_file=None):
-        self.translations = {}
-        self.metadata = {}
+    def __init__(self, primary_lang_file: str, fallback_lang_file: str = None) -> None:
+        self.translations: dict = {}
+        self.metadata: dict = {}
 
-        self.primary_lang_file = primary_lang_file
-        self.fallback_lang_file = fallback_lang_file
+        self.primary_lang_file: str = primary_lang_file
+        self.fallback_lang_file: str = fallback_lang_file
 
         if os.path.exists(primary_lang_file):
             self.load_language(primary_lang_file)
