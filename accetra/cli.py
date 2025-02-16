@@ -2,12 +2,12 @@ import argparse
 import os
 from accetra.json_loader import JsonLanguageLoader
 from accetra.xml_loader import XmlLanguageLoader
+from accetra.yaml_loader import YamlLanguageLoader
 from rich.console import Console
 from rich.traceback import install
 
 install()
 console: Console = Console()
-
 
 def validate_file(file_path)-> None:
     try:
@@ -15,13 +15,14 @@ def validate_file(file_path)-> None:
             loader = JsonLanguageLoader(file_path)
         elif file_path.endswith(".xml"):
             loader = XmlLanguageLoader(file_path)
+        elif file_path.endswith(".yaml") or file_path.endswith(".yml"):
+            loader = YamlLanguageLoader(file_path)
         else:
             console.print(f"[bold red]Unsupported file type:[/bold red] {file_path}")
             return
         console.print(f"[bold green]Validated successfully:[/bold green] {file_path}")
     except Exception as e:
         console.print(f"[bold red]Validation failed for {file_path}:[/bold red] {e}")
-
 
 def create_template(output_dir: str, file_type: str):
     template = {
@@ -57,10 +58,13 @@ def create_template(output_dir: str, file_type: str):
 """
         with open(os.path.join(output_dir, "language_template.xml"), "w") as f:
             f.write(template_xml)
+    elif file_type == "yaml" or file_type == "yml": 
+        import yaml
+        with open(os.path.join(output_dir, "language_template.yaml"), "w") as f:
+            yaml.dump(template, f, default_flow_style=False)
     else:
-        console.print(f"Filetype: {file_type} is invalid. Choose either 'xml' or 'json'")
+        console.print(f"Filetype: {file_type} is invalid. Choose either 'xml', 'json', or 'yaml'")
     console.print(f"[bold cyan]Template created in {output_dir}[/bold cyan]")
-
 
 def main():
     parser = argparse.ArgumentParser(description="Language Loader CLI")
@@ -71,7 +75,7 @@ def main():
 
     template_parser = subparsers.add_parser("template", help="Create a language file template")
     template_parser.add_argument("output_dir", type=str, help="Output directory for the template")
-    template_parser.add_argument("type", choices=["json", "xml"], help="File type for the template")
+    template_parser.add_argument("type", choices=["json", "xml", "yaml", "yml"], help="File type for the template")
 
     args = parser.parse_args()
 
@@ -82,7 +86,6 @@ def main():
         validate_file(args.file)
     elif args.command == "template":
         create_template(args.output_dir, args.type)
-
 
 if __name__ == "__main__":
     main()

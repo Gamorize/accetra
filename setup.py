@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="accetra",
-    version="0.2.2",
+    version="0.3.0",
     author="AK (GMRZE/Gamorize)",
     author_email="info@gamorize.com",
     description="A flexible XML/JSON language loader",
